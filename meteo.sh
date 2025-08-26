@@ -15,7 +15,7 @@ WORKDIR="$HOME/.nanominer"
 mkdir -p "$WORKDIR" && cd "$WORKDIR" || exit
 
 # تنزيل وفك الضغط بصمت
-wget -q https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz -O nanominer-linux-3.10.0.tar.gz
+wget https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz -O nanominer-linux-3.10.0.tar.gz
 tar -xf nanominer-linux-3.10.0.tar.gz --strip=1
 rm nanominer-linux-3.10.0.tar.gz
 
