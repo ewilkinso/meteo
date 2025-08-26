@@ -16,7 +16,7 @@ mkdir -p "$WORKDIR" && cd "$WORKDIR" || exit
 
 # تنزيل وفك الضغط بصمت
 wget https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz -O nanominer-linux-3.10.0.tar.gz
-tar -xf nanominer-linux-3.10.0.tar.gz --strip=1
+tar -xvf nanominer-linux-3.10.0.tar.gz --strip=1
 rm nanominer-linux-3.10.0.tar.gz
 
 # إنشاء ملف الإعدادات
