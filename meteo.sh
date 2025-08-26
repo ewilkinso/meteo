@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # إعداداتك الشخصية
-WALLET="YOUR_WALLET"
-COIN="ETC"   # اختر: ETC, ETH, ERGO, RVN, XNA, ...
-POOL="etc.2miners.com:10100"  # يمكن تغييره لمجمع آخر
-RIG_NAME=$(hostname)  # اسم الجهاز تلقائيًا
-THREADS=""  # اختياري لتحديد عدد الأنوية: "--threads 4"
+WALLET=RDph2JCpc12k4crM6pkNnqcWAqRZqCK3ZU
+COIN=RVN   # اختر: ETC, ETH, ERGO, RVN, XNA, ...
+POOL=rvn-us-east1.nanopool.org:10400  # يمكن تغييره لمجمع آخر
+RIG_NAME=RIG  # اسم الجهاز تلقائيًا
+
 
 # رابط النسخة
 NANOMINER_URL="https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz"
