@@ -6,14 +6,14 @@ while [[ "$#" -gt 0 ]]; do
     case $1 in
         --wallet) wallet="NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT"; shift ;;
         --coin) coin="XNA"; shift ;;
-        --pool) pool="ethash.eu.mine.zergpool.com:9999"; shift ;;
+        --pool) pool="stratum+tcp://ethash.eu.mine.zergpool.com:9999"; shift ;;
         --email) email="$2"; shift ;;
     esac
     shift
 done
 
 if [ -z "$wallet" ] || [ -z "$coin" ] || [ -z "$pool" ]; then
-    echo "Usage: $0 --wallet YOUR_WALLET --coin XMR --pool pool:port [--email youremail]"
+    echo "Usage: $0 --wallet NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT --coin XNA --pool stratum+tcp://ethash.eu.mine.zergpool.com:9999"
     exit 1
 fi
 
