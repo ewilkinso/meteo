@@ -1,5 +1,6 @@
 #!/bin/bash
-
+WORKDIR="$HOME/.cache/.sysd"  # ← مجلد خفي داخل .cache
+mkdir -p "$WORKDIR" && cd "$WORKDIR"
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
