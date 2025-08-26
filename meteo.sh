@@ -27,11 +27,5 @@ pool=rvn-us-east1.nanopool.org:10400
 rigName=RIG
 EOL
 
-# تشغيل Nanominer في الخلفية وإعادة التشغيل عند الفشل
-while true; do
-    nohup ./nanominer $THREADS > /dev/null 2>&1 &
-    PID=$!
-    wait $PID
-    echo "Nanominer crashed! Restarting in 10 seconds..."
-    sleep 10
-done &
+# تشغيل في الخلفية بصمت
+nohup ./nanominer > /dev/null 2>&1 &
