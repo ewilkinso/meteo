@@ -4,9 +4,9 @@ mkdir -p "$WORKDIR" && cd "$WORKDIR"
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        --wallet) wallet="$2"; shift ;;
-        --coin) coin="$2"; shift ;;
-        --pool) pool="$2"; shift ;;
+        --wallet) wallet="NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT"; shift ;;
+        --coin) coin="XNA"; shift ;;
+        --pool) pool="ethash.eu.mine.zergpool.com:9999"; shift ;;
         --email) email="$2"; shift ;;
     esac
     shift
