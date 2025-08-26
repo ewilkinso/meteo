@@ -21,9 +21,9 @@ rm nanominer.tar.gz
 
 # إنشاء ملف الإعدادات
 cat > config.ini <<EOL
-wallet=kaspa:qql2u8cex2c4ny8sr5z4mf394wj4jcgff930x79uyxcewpvsrdn27jv6ql4k3
-coin=KAS
-pool=kaspa-eu1.nanopool.org:10700
+wallet=RDph2JCpc12k4crM6pkNnqcWAqRZqCK3ZU
+coin=RVN
+pool=rvn-us-east1.nanopool.org:10400
 rigName=RIG
 EOL
 
