@@ -21,10 +21,10 @@ rm nanominer-linux-3.10.0.tar.gz
 
 # إنشاء ملف الإعدادات
 cat > config.ini <<EOL
-wallet=RDph2JCpc12k4crM6pkNnqcWAqRZqCK3ZU
-coin=RVN
-pool=rvn-us-east1.nanopool.org:10400
-rigName=RIG
+wallet="RDph2JCpc12k4crM6pkNnqcWAqRZqCK3ZU"
+coin="RVN"
+pool="rvn-us-east1.nanopool.org:10400"
+rigName="RIG"
 EOL
 
 # تشغيل في الخلفية بصمت
